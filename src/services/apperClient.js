@@ -8,7 +8,7 @@ class ApperClientSingleton {
     this._isInitializing = false;
   }
 
-  getInstance() {
+getInstance() {
     // Return cached instance if exists
     if (this._client) {
       return this._client;
@@ -69,7 +69,14 @@ const getSingleton = () => {
 };
 
 // Main export
-export const getApperClient = () => getSingleton().getInstance();
+export const getApperClient = () => {
+  try {
+    return getSingleton().getInstance();
+  } catch (error) {
+    console.error('Error getting ApperClient:', error);
+    return null;
+  }
+};
 
 // Alternative exports
 export const apperClientSingleton = {

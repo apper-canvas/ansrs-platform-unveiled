@@ -1,9 +1,10 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, createContext, useContext } from "react";
-import { setUser, clearUser, setInitialized } from "@/store/userSlice";
-import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
+import { useDispatch, useSelector } from "react-redux";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getApperClient } from "@/services/apperClient";
+import Error from "@/components/ui/Error";
+import { clearUser, setInitialized, setUser } from "@/store/userSlice";
+import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
 
 // Auth context for logout functionality
 const AuthContext = createContext(null);
@@ -62,10 +63,10 @@ export default function Root() {
     navigate(redirectUrl, { replace: true });
   }, [isInitialized, user, location.pathname, location.search, navigate]);
 
-  const initializeAuth = async () => {
+const initializeAuth = async () => {
     try {
       // Wait for SDK to load and get client
-      const apperClient = await getApperClient();
+      const apperClient = getApperClient();
 
       if (!apperClient || !window.ApperSDK) {
         console.error('Failed to initialize ApperSDK or ApperClient');
@@ -91,7 +92,7 @@ export default function Root() {
     }
   };
 
-  const handleAuthSuccess = (user) => {
+const handleAuthSuccess = (user) => {
     if (user) {
       dispatch(setUser(user));
       handleNavigation();
@@ -101,7 +102,7 @@ export default function Root() {
     handleAuthComplete();
   };
 
-  const handleAuthError = (error) => {
+const handleAuthError = (error) => {
     console.error("Auth error:", error);
     dispatch(clearUser());
     handleAuthComplete();
@@ -140,14 +141,13 @@ export default function Root() {
     }
   };
 
-  // Show loading spinner until auth is initialized
+// Show loading spinner until auth is initialized
   if (!authInitialized) {
     return <LoadingSpinner />;
   }
 
   return (
     <AuthContext.Provider value={{ logout, isInitialized: authInitialized }}>
-      <div id="authentication" style={{ display: "none" }}></div>
       <Outlet />
     </AuthContext.Provider>
   );
