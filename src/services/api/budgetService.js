@@ -249,5 +249,3 @@ const budgetService = {
 };
 
 export default budgetService;
-
-export default budgetService;
