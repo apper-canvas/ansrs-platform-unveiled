@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "projectId": 1,
+    "name": "UI/UX Design Completion",
+    "dueDate": "2024-02-28",
+    "status": "Completed",
+    "completionPercent": 100,
+    "dependencies": []
+  },
+  {
+    "Id": 2,
+    "projectId": 1,
+    "name": "Frontend Development",
+    "dueDate": "2024-04-30",
+    "status": "In Progress",
+    "completionPercent": 65,
+    "dependencies": [1]
+  },
+  {
+    "Id": 3,
+    "projectId": 1,
+    "name": "Backend Integration",
+    "dueDate": "2024-05-31",
+    "status": "Not Started",
+    "completionPercent": 0,
+    "dependencies": [2]
+  },
+  {
+    "Id": 4,
+    "projectId": 2,
+    "name": "Requirements Analysis",
+    "dueDate": "2024-02-15",
+    "status": "In Progress",
+    "completionPercent": 80,
+    "dependencies": []
+  },
+  {
+    "Id": 5,
+    "projectId": 2,
+    "name": "Platform Selection",
+    "dueDate": "2024-03-01",
+    "status": "Not Started",
+    "completionPercent": 0,
+    "dependencies": [4]
+  },
+  {
+    "Id": 6,
+    "projectId": 3,
+    "name": "System Architecture",
+    "dueDate": "2024-04-01",
+    "status": "Not Started",
+    "completionPercent": 0,
+    "dependencies": []
+  },
+  {
+    "Id": 7,
+    "projectId": 4,
+    "name": "Cloud Assessment",
+    "dueDate": "2024-02-01",
+    "status": "Completed",
+    "completionPercent": 100,
+    "dependencies": []
+  },
+  {
+    "Id": 8,
+    "projectId": 4,
+    "name": "Migration Phase 1",
+    "dueDate": "2024-04-15",
+    "status": "In Progress",
+    "completionPercent": 45,
+    "dependencies": [7]
+  },
+  {
+    "Id": 9,
+    "projectId": 5,
+    "name": "App Store Submission",
+    "dueDate": "2023-11-30",
+    "status": "Completed",
+    "completionPercent": 100,
+    "dependencies": []
+  },
+  {
+    "Id": 10,
+    "projectId": 5,
+    "name": "Marketing Campaign",
+    "dueDate": "2023-12-15",
+    "status": "Completed",
+    "completionPercent": 100,
+    "dependencies": [9]
+  }
+]

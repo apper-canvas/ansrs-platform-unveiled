@@ -1,0 +1,157 @@
+[
+  {
+    "Id": 1,
+    "projectId": 1,
+    "allocated": 125000,
+    "spent": 78000,
+    "categories": [
+      {
+        "Id": 1,
+        "name": "Development",
+        "allocated": 80000,
+        "spent": 52000,
+        "variance": -28000
+      },
+      {
+        "Id": 2,
+        "name": "Design",
+        "allocated": 25000,
+        "spent": 18000,
+        "variance": -7000
+      },
+      {
+        "Id": 3,
+        "name": "Testing",
+        "allocated": 20000,
+        "spent": 8000,
+        "variance": -12000
+      }
+    ],
+    "currency": "USD",
+    "lastUpdated": "2024-01-20T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "projectId": 2,
+    "allocated": 85000,
+    "spent": 12000,
+    "categories": [
+      {
+        "Id": 4,
+        "name": "Software Licenses",
+        "allocated": 50000,
+        "spent": 8000,
+        "variance": -42000
+      },
+      {
+        "Id": 5,
+        "name": "Implementation",
+        "allocated": 25000,
+        "spent": 4000,
+        "variance": -21000
+      },
+      {
+        "Id": 6,
+        "name": "Training",
+        "allocated": 10000,
+        "spent": 0,
+        "variance": -10000
+      }
+    ],
+    "currency": "USD",
+    "lastUpdated": "2024-01-28T11:45:00Z"
+  },
+  {
+    "Id": 3,
+    "projectId": 3,
+    "allocated": 200000,
+    "spent": 35000,
+    "categories": [
+      {
+        "Id": 7,
+        "name": "Development",
+        "allocated": 120000,
+        "spent": 20000,
+        "variance": -100000
+      },
+      {
+        "Id": 8,
+        "name": "Infrastructure",
+        "allocated": 50000,
+        "spent": 15000,
+        "variance": -35000
+      },
+      {
+        "Id": 9,
+        "name": "Compliance",
+        "allocated": 30000,
+        "spent": 0,
+        "variance": -30000
+      }
+    ],
+    "currency": "USD",
+    "lastUpdated": "2024-01-22T13:10:00Z"
+  },
+  {
+    "Id": 4,
+    "projectId": 4,
+    "allocated": 150000,
+    "spent": 95000,
+    "categories": [
+      {
+        "Id": 10,
+        "name": "Cloud Services",
+        "allocated": 80000,
+        "spent": 58000,
+        "variance": -22000
+      },
+      {
+        "Id": 11,
+        "name": "Migration Tools",
+        "allocated": 40000,
+        "spent": 22000,
+        "variance": -18000
+      },
+      {
+        "Id": 12,
+        "name": "Consulting",
+        "allocated": 30000,
+        "spent": 15000,
+        "variance": -15000
+      }
+    ],
+    "currency": "USD",
+    "lastUpdated": "2024-01-18T10:25:00Z"
+  },
+  {
+    "Id": 5,
+    "projectId": 5,
+    "allocated": 95000,
+    "spent": 92000,
+    "categories": [
+      {
+        "Id": 13,
+        "name": "Development",
+        "allocated": 60000,
+        "spent": 58000,
+        "variance": -2000
+      },
+      {
+        "Id": 14,
+        "name": "App Store Fees",
+        "allocated": 15000,
+        "spent": 14000,
+        "variance": -1000
+      },
+      {
+        "Id": 15,
+        "name": "Marketing",
+        "allocated": 20000,
+        "spent": 20000,
+        "variance": 0
+      }
+    ],
+    "currency": "USD",
+    "lastUpdated": "2023-12-15T17:45:00Z"
+  }
+]

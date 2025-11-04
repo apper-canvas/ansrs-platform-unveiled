@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 1,
+    "name": "TechCorp Enterprises",
+    "settings": {
+      "timezone": "UTC-8",
+      "currency": "USD",
+      "fiscalYearStart": "2024-01-01"
+    },
+    "departments": [1, 2, 3, 4]
+  }
+]
