@@ -224,7 +224,7 @@ const getRiskSeverityCounts = () => {
                 <ProgressBar progress={progress} size="lg" />
                 <div className="mt-4 grid grid-cols-3 gap-4 text-center">
                   <div>
-<p className="text-2xl font-bold text-primary-600">{(project.milestones_c ? JSON.parse(project.milestones_c || "[]") : project.milestones || []).length}</p>
+<p className="text-2xl font-bold text-primary-600">{(project.milestones_c ? (() => { try { return JSON.parse(project.milestones_c || "[]"); } catch { return []; } })() : project.milestones || []).length}</p>
                     <p className="text-sm text-gray-600">Milestones</p>
                   </div>
                   <div>
@@ -232,7 +232,7 @@ const getRiskSeverityCounts = () => {
                     <p className="text-sm text-gray-600">Complete</p>
                   </div>
 <div>
-                    <p className="text-2xl font-bold text-gray-900">{(project.team_ids_c ? JSON.parse(project.team_ids_c || "[]") : project.teamIds || []).length}</p>
+<p className="text-2xl font-bold text-gray-900">{(project.team_ids_c ? (() => { try { return JSON.parse(project.team_ids_c || "[]"); } catch { return []; } })() : project.teamIds || []).length}</p>
                     <p className="text-sm text-gray-600">Team Members</p>
                   </div>
                 </div>
@@ -242,7 +242,7 @@ const getRiskSeverityCounts = () => {
               <Card className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Project Objectives</h3>
                 <div className="space-y-3">
-{(project.objectives_c ? JSON.parse(project.objectives_c || "[]") : project.objectives || []).map((objective, index) => (
+{(project.objectives_c ? (() => { try { return JSON.parse(project.objectives_c || "[]"); } catch { return []; } })() : project.objectives || []).map((objective, index) => (
                     <div key={index} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />
                       <p className="text-gray-700">{objective}</p>
