@@ -49,17 +49,17 @@ const ProjectList = ({ viewMode = "grid" }) => {
     loadData();
   }, []);
 
-  const getProjectOwner = (ownerId) => {
+const getProjectOwner = (ownerId) => {
     return users.find(user => user.Id === ownerId);
   };
-
-  const getProjectBudget = (projectId) => {
-    return budgets.find(budget => budget.projectId === projectId);
+const getProjectBudget = (projectId) => {
+    return budgets.find(budget => (budget.project_id_c || budget.projectId) === projectId);
   };
 
-  const calculateProgress = (project) => {
+const calculateProgress = (project) => {
     // Mock calculation based on status
-    switch (project.status) {
+    const status = project.status_c || project.status;
+    switch (status) {
       case "Completed": return 100;
       case "In Progress": return Math.floor(Math.random() * 40) + 50;
       case "Planning": return Math.floor(Math.random() * 30) + 20;
@@ -68,25 +68,28 @@ const ProjectList = ({ viewMode = "grid" }) => {
     }
   };
 
-  const getBudgetVariance = (budget) => {
+const getBudgetVariance = (budget) => {
     if (!budget) return 0;
-    return ((budget.spent / budget.allocated) * 100) - 100;
+    const spent = budget.spent_c || budget.spent || 0;
+    const allocated = budget.allocated_c || budget.allocated || 1;
+    return ((spent / allocated) * 100) - 100;
   };
 
-  const filteredProjects = projects.filter(project => {
+const filteredProjects = projects.filter(project => {
     if (filterStatus === "all") return true;
-    return project.status.toLowerCase().replace(" ", "-") === filterStatus;
+    const status = project.status_c || project.status;
+    return status.toLowerCase().replace(" ", "-") === filterStatus;
   });
 
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
+const sortedProjects = [...filteredProjects].sort((a, b) => {
     switch (sortBy) {
       case "name":
-        return a.name.localeCompare(b.name);
+        return (a.name_c || a.name).localeCompare(b.name_c || b.name);
       case "status":
-        return a.status.localeCompare(b.status);
+        return (a.status_c || a.status).localeCompare(b.status_c || b.status);
       case "updatedAt":
       default:
-        return new Date(b.updatedAt) - new Date(a.updatedAt);
+        return new Date(b.ModifiedOn || b.updatedAt) - new Date(a.ModifiedOn || a.updatedAt);
     }
   });
 
@@ -140,8 +143,8 @@ const ProjectList = ({ viewMode = "grid" }) => {
 
       {/* Project Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sortedProjects.map((project, index) => {
-          const owner = getProjectOwner(project.ownerId);
+{sortedProjects.map((project, index) => {
+          const owner = getProjectOwner(project.owner_id_c || project.ownerId);
           const budget = getProjectBudget(project.Id);
           const progress = calculateProgress(project);
           const budgetVariance = getBudgetVariance(budget);
@@ -162,13 +165,13 @@ const ProjectList = ({ viewMode = "grid" }) => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h3 className="font-semibold text-gray-900 line-clamp-2">
-                        {project.name}
+{project.name_c || project.name}
                       </h3>
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                        {project.description}
+                        {project.description_c || project.description}
                       </p>
                     </div>
-                    <StatusIndicator status={project.status} />
+<StatusIndicator status={project.status_c || project.status} />
                   </div>
 
                   {/* Progress */}
@@ -178,15 +181,15 @@ const ProjectList = ({ viewMode = "grid" }) => {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <p className="text-gray-500">Due Date</p>
-                      <p className="font-medium">
-                        {format(new Date(project.endDate), "MMM d, yyyy")}
+<p className="font-medium">
+                        {format(new Date(project.end_date_c || project.endDate), "MMM d, yyyy")}
                       </p>
                     </div>
                     {budget && (
                       <div>
                         <p className="text-gray-500">Budget</p>
-                        <p className="font-medium">
-                          ${budget.allocated.toLocaleString()}
+<p className="font-medium">
+                          ${(budget.allocated_c || budget.allocated || 0).toLocaleString()}
                         </p>
                       </div>
                     )}
@@ -197,10 +200,10 @@ const ProjectList = ({ viewMode = "grid" }) => {
                     <div className="flex items-center space-x-2">
                       {owner && (
                         <>
-                          <div className="w-6 h-6 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-xs text-white font-medium">
-                            {owner.name.split(" ").map(n => n[0]).join("")}
+<div className="w-6 h-6 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-xs text-white font-medium">
+                            {(owner.name_c || owner.name).split(" ").map(n => n[0]).join("")}
                           </div>
-                          <span className="text-sm text-gray-600">{owner.name}</span>
+                          <span className="text-sm text-gray-600">{owner.name_c || owner.name}</span>
                         </>
                       )}
                     </div>

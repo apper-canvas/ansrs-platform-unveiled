@@ -19,7 +19,7 @@ const Layout = () => {
       <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
       
       <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
-        <Header onMenuToggle={handleMenuToggle} />
+<Header onMenuToggle={handleMenuToggle} />
         
         <main className="flex-1 overflow-y-auto">
           <Outlet />

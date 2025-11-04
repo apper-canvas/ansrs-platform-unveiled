@@ -10,7 +10,7 @@ import Empty from "@/components/ui/Empty";
 import userService from "@/services/api/userService";
 
 const Organization = () => {
-  const [users, setUsers] = useState([]);
+const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedTab, setSelectedTab] = useState("structure");
@@ -190,7 +190,7 @@ const Organization = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="w-10 h-10 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
-                              {user.name.split(" ").map(n => n[0]).join("")}
+{(user.name_c || user.name).split(" ").map(n => n[0]).join("")}
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{user.name}</div>
@@ -199,16 +199,16 @@ const Organization = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge variant={getRoleBadgeVariant(user.role)}>
-                            {user.role}
+<Badge variant={getRoleBadgeVariant(user.role_c || user.role)}>
+                            {user.role_c || user.role}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {departments.find(d => d.id === user.departmentId)?.name || "Unknown"}
+<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                          {departments.find(d => d.id === (user.department_id_c || user.departmentId))?.name || "Unknown"}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge variant={user.isExternal ? "warning" : "success"}>
-                            {user.isExternal ? "External" : "Internal"}
+<Badge variant={(user.is_external_c || user.isExternal) ? "warning" : "success"}>
+                            {(user.is_external_c || user.isExternal) ? "External" : "Internal"}
                           </Badge>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -244,12 +244,12 @@ const Organization = () => {
                         .filter(user => user.departmentId === dept.id)
                         .map((user) => (
                           <div key={user.Id} className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-white font-medium text-xs">
-                              {user.name.split(" ").map(n => n[0]).join("")}
+<div className="w-8 h-8 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full flex items-center justify-center text-white font-medium text-xs">
+                              {(user.name_c || user.name).split(" ").map(n => n[0]).join("")}
                             </div>
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                              <p className="text-xs text-gray-500">{user.role}</p>
+                              <p className="text-sm font-medium text-gray-900">{user.name_c || user.name}</p>
+                              <p className="text-xs text-gray-500">{user.role_c || user.role}</p>
                             </div>
                           </div>
                         ))}

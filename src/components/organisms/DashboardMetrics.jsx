@@ -19,7 +19,7 @@ const DashboardMetrics = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const loadMetrics = async () => {
+const loadMetrics = async () => {
     try {
       setLoading(true);
       setError("");
@@ -30,17 +30,17 @@ const DashboardMetrics = () => {
         riskService.getAll()
       ]);
 
-      // Calculate metrics
+      // Calculate metrics with new field names
       const totalProjects = projects.length;
-      const activeProjects = projects.filter(p => p.status === "In Progress").length;
-      const completedProjects = projects.filter(p => p.status === "Completed").length;
+      const activeProjects = projects.filter(p => (p.status_c || p.status) === "In Progress").length;
+      const completedProjects = projects.filter(p => (p.status_c || p.status) === "Completed").length;
       const completionRate = totalProjects > 0 ? (completedProjects / totalProjects) * 100 : 0;
 
-      const totalBudget = budgets.reduce((sum, b) => sum + b.allocated, 0);
-      const totalSpent = budgets.reduce((sum, b) => sum + b.spent, 0);
+      const totalBudget = budgets.reduce((sum, b) => sum + (b.allocated_c || b.allocated || 0), 0);
+      const totalSpent = budgets.reduce((sum, b) => sum + (b.spent_c || b.spent || 0), 0);
       const budgetUtilization = totalBudget > 0 ? (totalSpent / totalBudget) * 100 : 0;
 
-      const highRisks = risks.filter(r => r.severity === "High" && r.status === "Open").length;
+      const highRisks = risks.filter(r => (r.severity_c || r.severity) === "High" && (r.status_c || r.status) === "Open").length;
 
       setMetrics({
         totalProjects,

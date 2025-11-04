@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadDashboardData = async () => {
+const loadDashboardData = async () => {
       try {
         const [projects, activities, usersData] = await Promise.all([
           projectService.getAll(),
@@ -27,12 +27,12 @@ const Dashboard = () => {
 
         // Get 5 most recently updated projects
         const sortedProjects = projects
-          .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+          .sort((a, b) => new Date(b.ModifiedOn || b.updatedAt) - new Date(a.ModifiedOn || a.updatedAt))
           .slice(0, 5);
 
         // Get 8 most recent activities
         const sortedActivities = activities
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .sort((a, b) => new Date(b.timestamp_c || b.timestamp) - new Date(a.timestamp_c || a.timestamp))
           .slice(0, 8);
 
         setRecentProjects(sortedProjects);
@@ -48,14 +48,14 @@ const Dashboard = () => {
     loadDashboardData();
   }, []);
 
-  const getUserName = (userId) => {
+const getUserName = (userId) => {
     const user = users.find(u => u.Id === parseInt(userId));
-    return user ? user.name : "Unknown User";
+    return user ? (user.name_c || user.name) : "Unknown User";
   };
 
-  const getProjectName = (projectId) => {
+const getProjectName = (projectId) => {
     const project = recentProjects.find(p => p.Id === projectId);
-    return project ? project.name : "Unknown Project";
+    return project ? (project.name_c || project.name) : "Unknown Project";
   };
 
   const getActivityIcon = (type) => {
@@ -131,12 +131,12 @@ const Dashboard = () => {
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500"></div>
                       <div>
                         <p className="font-medium text-gray-900">{project.name}</p>
-                        <p className="text-sm text-gray-500">
-                          Updated {formatDistance(new Date(project.updatedAt), new Date(), { addSuffix: true })}
-                        </p>
+<p className="text-sm text-gray-500">
+                          Updated {formatDistance(new Date(project.ModifiedOn || project.updatedAt), new Date(), { addSuffix: true })}
+</p>
                       </div>
                     </div>
-                    <StatusIndicator status={project.status} />
+                    <StatusIndicator status={project.status_c || project.status} />
                   </motion.div>
                 ))
               )}
@@ -184,14 +184,14 @@ const Dashboard = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-gray-900">
-                        <span className="font-medium">{getUserName(activity.userId)}</span>
+<span className="font-medium">{getUserName(activity.user_id_c || activity.userId)}</span>
                         {" "}
                         <span className="text-gray-600">{activity.content}</span>
                       </p>
-                      <div className="mt-1 flex items-center space-x-2 text-xs text-gray-500">
-                        <span>{getProjectName(activity.projectId)}</span>
+<div className="mt-1 flex items-center space-x-2 text-xs text-gray-500">
+                        <span>{getProjectName(activity.project_id_c || activity.projectId)}</span>
                         <span>•</span>
-                        <span>{formatDistance(new Date(activity.timestamp), new Date(), { addSuffix: true })}</span>
+                        <span>{formatDistance(new Date(activity.timestamp_c || activity.timestamp), new Date(), { addSuffix: true })}</span>
                       </div>
                     </div>
                   </motion.div>

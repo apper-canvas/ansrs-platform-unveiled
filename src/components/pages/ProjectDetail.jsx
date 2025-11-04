@@ -64,13 +64,14 @@ const ProjectDetail = () => {
     loadProjectData();
   }, [id]);
 
-  const getUserName = (userId) => {
+const getUserName = (userId) => {
     const user = users.find(u => u.Id === userId);
-    return user ? user.name : "Unknown User";
+    return user ? (user.name_c || user.name) : "Unknown User";
   };
 
-  const calculateProgress = () => {
-    switch (project.status) {
+const calculateProgress = () => {
+    const status = project.status_c || project.status;
+    switch (status) {
       case "Completed": return 100;
       case "In Progress": return 65;
       case "Planning": return 25;
@@ -79,16 +80,20 @@ const ProjectDetail = () => {
     }
   };
 
-  const getBudgetVariance = () => {
+const getBudgetVariance = () => {
     if (!budget) return 0;
-    return budget.spent - budget.allocated;
+    const spent = budget.spent_c || budget.spent || 0;
+    const allocated = budget.allocated_c || budget.allocated || 1;
+    return ((spent / allocated) * 100) - 100;
   };
 
-  const getRiskSeverityCounts = () => {
+const getRiskSeverityCounts = () => {
     const counts = { High: 0, Medium: 0, Low: 0 };
     risks.forEach(risk => {
-      if (risk.status === "Open") {
-        counts[risk.severity] = (counts[risk.severity] || 0) + 1;
+      const status = risk.status_c || risk.status;
+      const severity = risk.severity_c || risk.severity;
+      if (status === "Open") {
+        counts[severity] = (counts[severity] || 0) + 1;
       }
     });
     return counts;
@@ -146,34 +151,34 @@ const ProjectDetail = () => {
             <div className="flex-1">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{project.name}</h1>
-                  <p className="text-gray-600 max-w-3xl">{project.description}</p>
+<h1 className="text-3xl font-bold text-gray-900 mb-2">{project.name_c || project.name}</h1>
+                  <p className="text-gray-600 max-w-3xl">{project.description_c || project.description}</p>
                 </div>
-                <StatusIndicator status={project.status} />
+<StatusIndicator status={project.status_c || project.status} />
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Project Owner</p>
-                  <p className="text-lg font-semibold text-gray-900">{getUserName(project.ownerId)}</p>
+<p className="text-sm font-medium text-gray-500">Project Owner</p>
+                  <p className="text-lg font-semibold text-gray-900">{getUserName(project.owner_id_c || project.ownerId)}</p>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Start Date</p>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {format(new Date(project.startDate), "MMM d, yyyy")}
+<p className="text-lg font-semibold text-gray-900">
+                    {format(new Date(project.start_date_c || project.startDate), "MMM d, yyyy")}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">End Date</p>
+<p className="text-sm font-medium text-gray-500">End Date</p>
                   <p className="text-lg font-semibold text-gray-900">
-                    {format(new Date(project.endDate), "MMM d, yyyy")}
+                    {format(new Date(project.end_date_c || project.endDate), "MMM d, yyyy")}
                   </p>
                 </div>
                 {budget && (
                   <div>
                     <p className="text-sm font-medium text-gray-500">Budget</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      ${budget.allocated.toLocaleString()}
+<p className="text-lg font-semibold text-gray-900">
+                      ${(budget.allocated_c || budget.allocated || 0).toLocaleString()}
                     </p>
                   </div>
                 )}
@@ -219,15 +224,15 @@ const ProjectDetail = () => {
                 <ProgressBar progress={progress} size="lg" />
                 <div className="mt-4 grid grid-cols-3 gap-4 text-center">
                   <div>
-                    <p className="text-2xl font-bold text-primary-600">{project.milestones?.length || 0}</p>
+<p className="text-2xl font-bold text-primary-600">{(project.milestones_c ? JSON.parse(project.milestones_c || "[]") : project.milestones || []).length}</p>
                     <p className="text-sm text-gray-600">Milestones</p>
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-green-600">{Math.floor(progress)}%</p>
                     <p className="text-sm text-gray-600">Complete</p>
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900">{project.teamIds?.length || 0}</p>
+<div>
+                    <p className="text-2xl font-bold text-gray-900">{(project.team_ids_c ? JSON.parse(project.team_ids_c || "[]") : project.teamIds || []).length}</p>
                     <p className="text-sm text-gray-600">Team Members</p>
                   </div>
                 </div>
@@ -237,7 +242,7 @@ const ProjectDetail = () => {
               <Card className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Project Objectives</h3>
                 <div className="space-y-3">
-                  {project.objectives?.map((objective, index) => (
+{(project.objectives_c ? JSON.parse(project.objectives_c || "[]") : project.objectives || []).map((objective, index) => (
                     <div key={index} className="flex items-start space-x-3">
                       <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0" />
                       <p className="text-gray-700">{objective}</p>
@@ -255,11 +260,11 @@ const ProjectDetail = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between">
                       <span className="text-gray-600">Allocated</span>
-                      <span className="font-semibold">${budget.allocated.toLocaleString()}</span>
+<span className="font-semibold">${(budget.allocated_c || budget.allocated || 0).toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex items-center justify-between">
                       <span className="text-gray-600">Spent</span>
-                      <span className="font-semibold">${budget.spent.toLocaleString()}</span>
+                      <span className="font-semibold">${(budget.spent_c || budget.spent || 0).toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between border-t pt-2">
                       <span className="font-medium">Variance</span>
@@ -305,13 +310,13 @@ const ProjectDetail = () => {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <span className="font-medium text-gray-900">{getUserName(activity.userId)}</span>
-                      <Badge variant="default">{activity.type}</Badge>
-                      <span className="text-sm text-gray-500">
-                        {formatDistance(new Date(activity.timestamp), new Date(), { addSuffix: true })}
+<span className="font-medium text-gray-900">{getUserName(activity.user_id_c || activity.userId)}</span>
+                      <Badge variant="default">{activity.type_c || activity.type}</Badge>
+<span className="text-sm text-gray-500">
+                        {formatDistance(new Date(activity.timestamp_c || activity.timestamp), new Date(), { addSuffix: true })}
                       </span>
                     </div>
-                    <p className="text-gray-700">{activity.content}</p>
+<p className="text-gray-700">{activity.content_c || activity.content}</p>
                     {activity.attachments?.length > 0 && (
                       <div className="mt-2">
                         {activity.attachments.map((attachment, index) => (
